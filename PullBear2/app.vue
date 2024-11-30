@@ -1,44 +1,20 @@
 <template>
-  <!-- Erkek ve Kadın Seçenekleri -->
-  <div class="category-options">
-    <button 
-      :class="{ active: selectedCategory === 'erkek' }" 
-      @click="selectCategory('erkek')"
-    >
-      Erkek
-    </button>
-    <button 
-      :class="{ active: selectedCategory === 'kadın' }" 
-      @click="selectCategory('kadın')"
-    >
-      Kadın
-    </button>
-  </div>
 
-
-<!-- Menü Listesi -->
-<div v-if="isMenuVisible" class="menu-list">
-  <ul>
-    <li v-if="selectedCategory === 'erkek'"><a href="/category/aty">Erkek At Yılım</a></li>
-    <li v-if="selectedCategory === 'erkek'"><a href="/category/pantalon">Erkek Pantolon</a></li>
-    <li v-if="selectedCategory === 'erkek'"><a href="/category/mont">Erkek Mont</a></li>
-    <li v-if="selectedCategory === 'kadın'"><a href="/category/aty">Kadın At Yılım</a></li>
-    <li v-if="selectedCategory === 'kadın'"><a href="/category/pantalon">Kadın Pantolon</a></li>
-    <li v-if="selectedCategory === 'kadın'"><a href="/category/mont">Kadın Mont</a></li>
-  </ul>
-</div>
 
 <Button />
 
-
+<Influencer/>
 
 </template>
 
 
 <script setup>
+
 import { ref } from 'vue'
 
 import Button from '@/components/Button.vue'
+import Influencer from './components/Influencer.vue';
+
 
 // Menü görünürlüğü için ref kullanılıyor
 const isMenuVisible = ref(false)
@@ -56,6 +32,7 @@ const selectCategory = (category) => {
 selectedCategory.value = category
 isMenuVisible.value = true // Kategori seçildiğinde menüyü göster
 }
+
 </script>
 
 <style scoped>
