@@ -1,21 +1,23 @@
 <template>
   <div class="media-container">
-    <a href="">
+
     <video 
       src="@/video/video.mp4" 
       autoplay 
       loop 
       muted 
-      playsinline 
+      playsinline
+      style="cursor:pointer" 
       class="video-element">
+      
     </video>
-    </a>
-    <a href="">
+
     <img 
       src="@/video/photo.png" 
       class="image-element" 
+      style="cursor:pointer"
       />
-    </a>  
+
   </div>
 </template>
 
