@@ -2,7 +2,7 @@
 
 
 <Button />
-
+<Products/>
 <Influencer/>
 
 </template>
@@ -14,7 +14,7 @@ import { ref } from 'vue'
 
 import Button from '@/components/Button.vue'
 import Influencer from './components/Influencer.vue';
-
+import Products from './components/Products.vue';
 
 // Menü görünürlüğü için ref kullanılıyor
 const isMenuVisible = ref(false)
