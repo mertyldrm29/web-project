@@ -1,127 +1,158 @@
 <template>
+    <div id="app">
+      <!-- Navbar -->
+      <div class="navbar">
+        <button
+          v-for="(comp, index) in components"
+          :key="index"
+          @click="toggleComponent(index)"
+          :class="{ active: activeComponent === comp.component }"
+        >
+          {{ comp.name }}
+        </button>
+      </div>
+  
+  
+      <!-- Dinamik Component -->
+      <div class="dynamic-component">
+        <component v-if="activeComponent" :is="activeComponent" />
+      </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref } from "vue";
+  
+  // Menü ve Kategoriler
+  const isMenuVisible = ref(false);
+  const categories = ["erkek", "kadın"];
+  const selectedCategory = ref("erkek");
+  
+  const toggleMenu = () => {
+    isMenuVisible.value = !isMenuVisible.value;
+  };
+  
+  const selectCategory = (category) => {
+    selectedCategory.value = category;
+    isMenuVisible.value = false; // Kategori seçilince menüyü kapat
+  };
+  
+  // Componentlerin İmport Edilmesi
+  import Sepet from "@/components/Sepet.vue";
+  import Search from "@/components/Search.vue";
+  import Menu from "@/components/Menu.vue";
+  import Footer from "@/components/Footer.vue";
+  import Carousel from "@/components/Carousel.vue";
+  import ImageWithButton from "@/components/ImageWithButton.vue";
+  import Button from "@/components/Button.vue";
+  import Influencer from "@/components/Influencer.vue";
+  import Products from "@/components/Products.vue";
+  
 
-
-<Button />
-<Products/>
-<Influencer/>
-
-</template>
-
-
-<script setup>
-
-import { ref } from 'vue'
-
-import Button from '@/components/Button.vue'
-import Influencer from './components/Influencer.vue';
-import Products from './components/Products.vue';
-
-// Menü görünürlüğü için ref kullanılıyor
-const isMenuVisible = ref(false)
-
-// Seçilen kategori durumu
-const selectedCategory = ref('erkek') // Başlangıçta 'erkek' seçili
-
-// Menü açma/kapama fonksiyonu
-const toggleMenu = () => {
-isMenuVisible.value = !isMenuVisible.value
-}
-
-// Kategori seçme fonksiyonu
-const selectCategory = (category) => {
-selectedCategory.value = category
-isMenuVisible.value = true // Kategori seçildiğinde menüyü göster
-}
-
-</script>
-
-<style scoped>
-.menu-container {
-position: relative;
-}
-
-.menu-button {
-display: flex;
-align-items: center;
-border: 1px solid #fff;
-background: red;
-padding: 10px;
-cursor: pointer;
-transition: background-color 0.3s ease;
-}
-
-.menu-button:hover {
-background-color: black;
-}
-
-.menu-button-text {
-margin-left: 10px;
-font-size: 16px;
-color: white;
-}
-
-.icon-hamburger svg {
-display: block;
-width: 24px;
-height: 24px;
-stroke: white;
-}
-
-.category-selector {
-display: flex;
-align-items: center;
-}
-
-.category-options {
-display: flex;
-margin-left: 15px;
-}
-
-.category-options button {
-background: none;
-border: none;
-color: rgb(0, 0, 0);
-padding: 10px;
-cursor: pointer;
-}
-
-.category-options button.active {
-font-weight: bold;
-color: #f39c12; /* Seçili buton için renk değişikliği */
-}
-
-.menu-list {
-position: absolute;
-top: 50px;
-left: 0;
-background-color: #000000;
-color: white;
-padding: 10px;
-border-radius: 5px;
-width: 200px;
-display: none;
-}
-
-.menu-list ul {
-list-style-type: none;
-padding: 0;
-}
-
-.menu-list ul li {
-padding: 5px;
-}
-
-.menu-list ul li a {
-color: white;
-text-decoration: none;
-}
-
-.menu-list ul li a:hover {
-text-decoration: underline;
-}
-
-/* Menü görünür olduğunda */
-.menu-list {
-display: block;
-}
-</style>
+  
+  // Component Listesi
+  const components = [
+    { name: "Sepet", component: Sepet },
+    { name: "Search", component: Search },
+    { name: "Menu", component: Menu },
+    { name: "Footer", component: Footer },
+    { name: "Carousel", component: Carousel },
+    { name: "ImageWithButton", component: ImageWithButton },
+    { name: "Button", component: Button },
+    { name: "Influencer", component: Influencer },
+    { name: "Products", component: Products },
+  ];
+  
+  // Aktif Component
+  const activeComponent = ref(null);
+  
+  // Component Gösterimi Kontrolü
+  function toggleComponent(index) {
+    activeComponent.value =
+      activeComponent.value === components[index].component
+        ? null
+        : components[index].component;
+  }
+  </script>
+  
+  <style scoped>
+  #app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .navbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  button {
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+  
+  button.active {
+    background-color: #f39c12;
+    color: white;
+    font-weight: bold;
+  }
+  
+  button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .menu-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .menu-button {
+    display: flex;
+    align-items: center;
+    background: red;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .menu-button:hover {
+    background-color: black;
+  }
+  
+  .menu-list {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background-color: #000000;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 200px;
+    z-index: 10;
+  }
+  
+  .category-options {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .dynamic-component {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  </style>
+  

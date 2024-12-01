@@ -1,0 +1,1 @@
+export { default } from "file:///C:/Users/onatc/OneDrive/Masa%C3%BCst%C3%BC/PullnBear/web-project/PullBear2/node_modules/@nuxt/vite-builder/dist/runtime/vite-node.mjs"
