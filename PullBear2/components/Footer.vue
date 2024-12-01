@@ -2,12 +2,12 @@
   <footer class="footer">
     <!-- Uygulama Bilgisi -->
     <div class="footer-section">
-      <h3>Uygulamamız</h3>
+      <h3>Uygulamamız</h3>      
       <div class="app-links">
-        <a href="https://play.google.com" target="_blank">
+        <a href="https://www.apple.com/app-store/" target="_blank">
           <img src="https://static.pullandbear.net/2/static2/itxwebstandard/images/footer/downloadApp/ios.png" alt="Google Play" />
         </a>
-        <a href="https://www.apple.com/app-store/" target="_blank">
+        <a href="https://play.google.com" target="_blank">
           <img src="https://static.pullandbear.net/2/static2/itxwebstandard/images/footer/downloadApp/android.png" alt="App Store" />
         </a>
       </div>
