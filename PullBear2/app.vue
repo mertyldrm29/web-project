@@ -47,6 +47,7 @@
   import Button from "@/components/Button.vue";
   import Influencer from "@/components/Influencer.vue";
   import Products from "@/components/Products.vue";
+  import Video from "@/components/Video.vue";
   
 
   
@@ -61,6 +62,7 @@
     { name: "Button", component: Button },
     { name: "Influencer", component: Influencer },
     { name: "Products", component: Products },
+    { name: "Video", component: Video },
   ];
   
   // Aktif Component
