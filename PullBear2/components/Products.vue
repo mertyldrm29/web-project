@@ -1,9 +1,11 @@
 <template>
     <div>
-
+      <!-- Filter Component -->
+      <Filter @filter-changed="handleFilterChange" />
+  
       <!-- Ürünler -->
       <div class="products-container">
-        <div v-for="product in products" :key="product.id" class="product-card">
+        <div v-for="product in filteredProducts" :key="product.id" class="product-card">
           <img 
         :src="hoveredProduct === product.id ? product.hoverImage : product.image" 
         :alt="product.name" 
@@ -20,10 +22,11 @@
   </template>
   
   <script>
-
+  import Filter from './Filter.vue';
   
   export default {
     components: {
+      Filter,
     },
     data() {
       return {
@@ -50,8 +53,21 @@
           { id: 19, name: 'Kapüşonlu Şişme Mont', price: 2390, image: 'https://static.pullandbear.net/assets/public/9fa9/d75b/1827451e8d3c/f8cccadae4f0/03716506800-A1M/03716506800-A1M.jpg?ts=1732117086142&w=882&f=auto',hoverImage:'https://static.pullandbear.net/assets/public/958d/5adc/64924fdb9229/160a390f74ba/03716506800-A2M/03716506800-A2M.jpg?ts=1732117089914&w=882&f=auto', category: 'jackets' },
           { id: 20, name: 'Basic Yumuşak Kazak', price: 1390, image: 'https://static.pullandbear.net/assets/public/9698/6f6e/ebcc47a3bf85/c87b6f1a217a/07554510802-A1M/07554510802-A1M.jpg?ts=1729585800746&w=882&f=auto',hoverImage:'https://static.pullandbear.net/assets/public/f6fb/9a04/3bdb44d9a719/4c0101336a70/07554510802-A2M/07554510802-A2M.jpg?ts=1729237956374&w=882&f=auto' ,category: 'sweatshirts' },
         ],
-
+        selectedFilter: 'all', // Varsayılan filtre
       };
+    },
+    computed: {
+      filteredProducts() {
+        if (this.selectedFilter === 'all') {
+          return this.products; // Tüm ürünleri göster
+        }
+        return this.products.filter(product => product.category === this.selectedFilter); // Seçilen kategoriye göre filtrele
+      },
+    },
+    methods: {
+      handleFilterChange(filter) {
+        this.selectedFilter = filter; // Filtre değiştiğinde, filtreyi güncelle
+      },
     },
   };
   </script>
@@ -86,8 +102,10 @@
 .product-image:hover {
   transform: scale(1.05); /* Hover sırasında hafif büyütme efekti */
 }
+  
 
-.product-name {
+  
+  .product-name {
   margin-top: 10px;
   font-size: 16px;
   font-weight: bolder;
