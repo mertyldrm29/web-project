@@ -1,47 +1,73 @@
 <template>
-  <div>
-    <!-- Hamburger Menü Iconu -->
-    <div class="menu-icon" @click="toggleSidebar">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-    </div>
+  <div class="menu-container">
+    <!-- Menü İkonu (Yatay Üç Çizgi) -->
+    <button
+      type="button"
+      id="buttonMenu"
+      class="c-button c-button--menu"
+      aria-label="Menüyü görüntüle"
+      @click="toggleSidebar"
+    >
+      <span class="button-text">
+        <span class="icon icon-nav-menu">
+          <!-- Yatay Üç Çizgi Menü İkonu -->
+          <svg role="presentation" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M3 12h18M3 6h18M3 18h18"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+            ></path>
+          </svg>
+        </span>
+        <span class="count"></span>
+      </span>
+    </button>
 
-    <!-- Sidebar -->
-    <transition name="sidebar-transition" @before-enter="beforeEnter" @enter="enter" @leave="leave">
-      <div v-show="isSidebarVisible" class="sidebar">
-        <!-- Kapatma butonu (Çarpı ikonu) -->
-        <div class="close-btn" @click="toggleSidebar">
-          <div class="close-icon"></div>
-          <div class="close-icon"></div>
-        </div>
+    <!-- Menü Paneli -->
+    <div :class="['menu-panel', { open: isSidebarVisible }]">
+      <div class="menu-panel-header">
+        <h2>Menü</h2>
+        <button @click="toggleSidebar" class="close-button">Kapat</button>
+      </div>
+      
+      <!-- Cinsiyet Seçimleri -->
+      <div class="gender-selection">
+        <button
+          :class="['gender-button', { selected: selectedCategory === 'men' }]"
+          @click="selectCategory('men')"
+        >
+          Erkek
+        </button>
+        <button
+          :class="['gender-button', { selected: selectedCategory === 'women' }]"
+          @click="selectCategory('women')"
+        >
+          Kadın
+        </button>
+      </div>
 
-        <ul class="menu-options">
-          <li @click="selectCategory('men')">Erkek</li>
-          <li @click="selectCategory('women')">Kadın</li>
-        </ul>
-
-        <div v-if="selectedCategory === 'men'" class="category-list men-category">
+      <!-- Seçilen Kategorinin İçeriği -->
+      <div class="menu-panel-content">
+        <p v-if="selectedCategory === null">Bir kategori seçin.</p>
+        
+        <!-- Erkek Kategorisi İçeriği -->
+        <div v-if="selectedCategory === 'men'">
+          <h3>Erkek Kıyafetleri</h3>
           <ul>
-            <li>Gömlek</li>
-            <li>Pantolon</li>
-            <li>Şort</li>
-            <li>Mont</li>
-            <li>Ayakkabı</li>
+            <li v-for="item in menItems" :key="item" @click="selectItem(item)">{{ item }}</li>
           </ul>
         </div>
-
-        <div v-if="selectedCategory === 'women'" class="category-list women-category">
+        
+        <!-- Kadın Kategorisi İçeriği -->
+        <div v-if="selectedCategory === 'women'">
+          <h3>Kadın Kıyafetleri</h3>
           <ul>
-            <li>Elbise</li>
-            <li>Bluz</li>
-            <li>Jüp</li>
-            <li>Yelek</li>
-            <li>Babet</li>
+            <li v-for="item in womenItems" :key="item" @click="selectItem(item)">{{ item }}</li>
           </ul>
         </div>
       </div>
-    </transition>
+    </div>
   </div>
 </template>
 
@@ -49,165 +75,126 @@
 export default {
   data() {
     return {
-      isSidebarVisible: false, // Sidebar başlangıçta gizli
+      isSidebarVisible: false, // Menü paneli başlangıçta gizli
       selectedCategory: null,  // Başlangıçta kategori seçili değil
+      menItems: ['T-Shirt', 'Pantolon', 'Ceket', 'Şort', 'Ayakkabı'], // Erkek kıyafetleri
+      womenItems: ['Elbise', 'Etek', 'Bluz', 'Pantolon', 'Çanta'], // Kadın kıyafetleri
     };
   },
   methods: {
     toggleSidebar() {
-      this.isSidebarVisible = !this.isSidebarVisible; // Sidebar'ı açma/kapama
+      this.isSidebarVisible = !this.isSidebarVisible; // Menü panelini açma/kapama
     },
     selectCategory(category) {
-      this.selectedCategory = category;
+      this.selectedCategory = category; // Seçilen kategoriyi belirleme
     },
-    beforeEnter(el) {
-      el.style.transform = 'translateX(-100%)'; // Başlangıç pozisyonu
-    },
-    enter(el, done) {
-      el.offsetHeight; // Trigger reflow to restart animation
-      el.style.transition = 'transform 0.3s ease-in-out';
-      el.style.transform = 'translateX(0)';
-      done();
-    },
-    leave(el, done) {
-      el.style.transition = 'transform 0.3s ease-in-out';
-      el.style.transform = 'translateX(-100%)';
-      done();
+    selectItem(item) {
+      alert(`${item} seçildi!`); // Seçilen kıyafetle ilgili işlem yapma
     }
-  },
+  }
 };
 </script>
 
 <style scoped>
-/* Hamburger Menu Iconu */
-.menu-icon {
-  cursor: pointer;
+/* Menü Konteyneri */
+.menu-container {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  height: 25px;
-  margin: 20px;
+  align-items: center;
+  cursor: pointer;
+  flex: 0 0 auto;
 }
 
-.bar {
-  height: 5px;
-  background-color: #333;
-  border-radius: 5px;
-  transition: transform 0.3s ease;
+/* Menü İkonu */
+#buttonMenu {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-/* Sidebar */
-.sidebar {
+.button-text .count {
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+/* Menü Paneli */
+.menu-panel {
   position: fixed;
   top: 0;
   left: 0;
   width: 250px;
   height: 100%;
-  background-color: #333;
-  color: white;
-  padding-top: 20px;
-  transition: transform 0.3s ease-in-out;
-}
-
-/* Kapatma butonu (Çarpı ikonu) */
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 20px;
+  z-index: 1000;
+  transform: translateX(-100%); /* Başlangıçta gizli olacak */
+  transition: transform 0.3s ease;
 }
 
-.close-icon {
-  width: 25px;
-  height: 3px;
-  background-color: white;
-  border-radius: 5px;
-}
-
-.close-icon:first-child {
-  transform: rotate(45deg);
-}
-
-.close-icon:last-child {
-  transform: rotate(-45deg);
-}
-
-/* Menü seçenekleri için stil (Erkek ve Kadın aynı satırda) */
-.menu-options {
+/* Panel Başlığı */
+.menu-panel-header {
   display: flex;
   justify-content: space-between;
-  padding: 0 20px;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ddd;
 }
 
-.menu-options li {
+.close-button {
+  background: none;
+  border: none;
+  font-size: 18px;
   cursor: pointer;
-  padding: 10px;
 }
 
-.menu-options li:hover {
-  background-color: #444;
+/* Cinsiyet Seçimleri */
+.gender-selection {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
 }
 
+.gender-button {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.gender-button.selected {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Menü İçeriği */
+.menu-panel-content {
+  padding: 20px;
+  flex: 1;
+}
+
+/* Menü Paneli Açıldığında Görünür Olacak */
+.menu-panel.open {
+  transform: translateX(0); /* Menü paneli sola kayacak */
+}
+
+/* Menü Seçenekleri */
 ul {
   list-style-type: none;
   padding-left: 0;
 }
 
-.category-list {
-  margin-top: 20px;
-  padding-left: 20px;
-}
-
-/* Erkek ve Kadın Kategorileri için farklı stiller */
-.men-category {
-  background-color: #1e3a8a;  /* Erkek kategorisi için mavi arka plan */
-}
-
-.women-category {
-  background-color: #d946ef;  /* Kadın kategorisi için pembe arka plan */
-}
-
-.men-category ul,
-.women-category ul {
-  padding-left: 20px;
-}
-
-.men-category li,
-.women-category li {
-  font-size: 18px; /* Ürün isimlerinin boyutu */
-  padding: 8px 0;
-}
-
-.men-category li:hover,
-.women-category li:hover {
-  background-color: #444;
-  font-size: 20px; /* Hover durumunda ürün boyutunu artır */
-}
-
-button {
-  padding: 10px;
+ul li {
+  padding: 10px 0;
   cursor: pointer;
-  margin: 20px;
-  background-color: #333;
-  color: white;
-  border: none;
 }
 
-/* Hamburger Menü animasyonu */
-.menu-icon.open .bar:nth-child(1) {
-  transform: translateY(10px) rotate(45deg);
-}
-
-.menu-icon.open .bar:nth-child(2) {
-  opacity: 0;
-}
-
-.menu-icon.open .bar:nth-child(3) {
-  transform: translateY(-10px) rotate(-45deg);
+ul li:hover {
+  background-color: #f1f1f1;
+  font-weight: bold;
 }
 </style>
