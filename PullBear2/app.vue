@@ -152,7 +152,6 @@
   
   .dynamic-component {
     width: 100%;
-    max-width: 600px;
     text-align: center;
     margin-top: 20px;
   }
