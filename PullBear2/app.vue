@@ -1,5 +1,10 @@
 <template>
     <div id="app">
+      
+      <!-- Logo -->
+      <div class="logo-container">
+        <img src="https://static.pullandbear.net/2/static2/img/headLogo/logo_pull_black_new.svg" alt="Logo" class="logo" />
+      </div>
       <!-- Navbar -->
       <div class="navbar">
         <button
@@ -154,6 +159,9 @@
     width: 100%;
     text-align: center;
     margin-top: 20px;
+  }
+  .logo-container{
+    margin-bottom: 20px;
   }
   </style>
   
